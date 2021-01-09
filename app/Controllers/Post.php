@@ -60,4 +60,44 @@ class Post extends BaseController
         }
     }
 
+    public function edit($id)
+    {
+        $post = $this->model->find($id);
+
+        if (empty($post)) {
+            session()->setFlashdata('error', 'Post not found');
+            return redirect()->back();
+        }
+
+        $data = [
+            'title' => 'Edit post',
+            'post' => $post
+        ];
+
+        return view('posts/edit', $data);
+    }
+
+    public function update($id)
+    {
+        $title = $this->request->getPost('title');
+        $content = $this->request->getPost('content');
+        $status = $this->request->getPost('status');
+
+        $post = [
+            'title' => $title,
+            'content' => $content,
+            'status' => $status,
+            'slug' => url_title($title)
+        ];
+
+        $update = $this->model->update($id, $post);
+
+        if ($update) {
+            session()->setFlashdata('success', 'Post has been updated successfully');
+            return redirect()->to(base_url('post'));
+        } else {
+            session()->setFlashdata('error', 'Some problems occured, please try again');
+            return redirect()->back();
+        }
+    }
 }
