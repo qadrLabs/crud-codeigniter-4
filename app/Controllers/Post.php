@@ -100,4 +100,21 @@ class Post extends BaseController
             return redirect()->back();
         }
     }
+
+    public function destroy($id)
+    {
+        if (empty($id)) {
+            return redirect()->to(base_url('post'));
+        }
+
+        $delete = $this->model->delete($id);
+
+        if ($delete) {
+            session()->setFlashdata('success', 'Post has been removed successfully');
+            return redirect()->to(base_url('post'));
+        } else {
+            session()->setFlashdata('error', 'Some problems occured, please try again');
+            return redirect()->to(base_url('post'));
+        }
+    }
 }
