@@ -8,7 +8,7 @@ class PostModel extends Model
 {
     protected $table = 'posts';
     protected $allowedFields = ['title', 'slug', 'content', 'status'];
-    protected $useTimestamps true;
+    protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
     protected $deletedField = 'deleted_at';
